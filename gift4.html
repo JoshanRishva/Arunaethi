@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gift 4 - Tamil Poem</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@400;700&family=Dancing+Script:wght@400;700&display=swap');
+
+    body {
+      margin: 0;
+      padding: 10px;
+      min-height: 100vh;
+      width: 100vw;
+      background: linear-gradient(135deg, #ffdde1 0%, #ee9ca7 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Noto Sans Tamil', sans-serif;
+      overflow-x: hidden;
+      box-sizing: border-box;
+    }
+
+    /* Stage 1: Original Tamil Poem */
+    .poem-stage {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: all 1s ease-out;
+    }
+
+    .poem-stage.hidden {
+      opacity: 0;
+      transform: scale(0.8);
+      pointer-events: none;
+    }
+
+    .tamil-poem {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      padding: 25px 20px;
+      border-radius: 25px;
+      box-shadow: 0 8px 30px rgba(255, 0, 85, 0.3);
+      color: #b0003a;
+      font-size: 1.4rem;
+      line-height: 1.8;
+      max-width: 95%;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      animation: fadeIn 2s ease forwards;
+      word-wrap: break-word;
+      hyphens: auto;
+      overflow-wrap: break-word;
+    }
+
+    /* Mobile specific styles */
+    @media (max-width: 480px) {
+      .tamil-poem {
+        font-size: 1.2rem;
+        line-height: 1.6;
+        padding: 20px 15px;
+        margin: 10px;
+        max-width: calc(100vw - 40px);
+      }
+    }
+
+    @media (max-width: 360px) {
+      .tamil-poem {
+        font-size: 1.1rem;
+        line-height: 1.5;
+        padding: 18px 12px;
+        margin: 8px;
+        max-width: calc(100vw - 30px);
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .aj-floating {
+      position: absolute;
+      font-size: 3rem;
+      color: rgba(255, 0, 85, 0.1);
+      animation: floatAJ 10s linear infinite;
+      user-select: none;
+      z-index: 1;
+    }
+
+    @media (max-width: 480px) {
+      .aj-floating {
+        font-size: 2.5rem;
+      }
+    }
+
+    @keyframes floatAJ {
+      0% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(180deg); }
+      100% { transform: translateY(0) rotate(360deg); }
+    }
+
+    .continue-button {
+      position: absolute;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+      border: none;
+      padding: 12px 25px;
+      border-radius: 50px;
+      color: white;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+      transition: all 0.3s ease;
+      animation: pulse 2s ease-in-out infinite;
+      z-index: 10;
+    }
+
+    @media (max-width: 480px) {
+      .continue-button {
+        bottom: 20px;
+        padding: 10px 20px;
+        font-size: 0.9rem;
+      }
+    }
+
+    .continue-button:hover {
+      transform: translateX(-50%) translateY(-5px);
+      box-shadow: 0 12px 35px rgba(255, 107, 107, 0.6);
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: translateX(-50%) scale(1); }
+      50% { transform: translateX(-50%) scale(1.05); }
+    }
+
+    /* Stage 2: Secret Code Entry */
+    .code-stage {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transform: scale(0.8);
+      transition: all 1s ease-out;
+      pointer-events: none;
+    }
+
+    .code-stage.show {
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: all;
+    }
+
+    .code-message {
+      color: white;
+      font-size: 1.5rem;
+      margin-bottom: 30px;
+      text-align: center;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .code-input {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 15px;
+      padding: 20px 30px;
+      font-size: 1.8rem;
+      color: white;
+      text-align: center;
+      width: 250px;
+      margin-bottom: 30px;
+      outline: none;
+      transition: all 0.3s ease;
+      font-weight: bold;
+      letter-spacing: 5px;
+    }
+
+    .code-input::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+      letter-spacing: normal;
+    }
+
+    .code-input:focus {
+      border-color: #ff6b6b;
+      box-shadow: 0 0 20px rgba(255, 107, 107, 0.5);
+    }
+
+    .enter-button {
+      background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+      border: none;
+      padding: 20px 50px;
+      border-radius: 50px;
+      color: white;
+      font-size: 1.5rem;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(255, 107, 107, 0.4);
+      transition: all 0.3s ease;
+      margin-bottom: 20px;
+    }
+
+    .enter-button:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(255, 107, 107, 0.6);
+    }
+
+    .error-message {
+      color: #ff6b6b;
+      font-size: 1.1rem;
+      margin-top: 10px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .error-message.show {
+      opacity: 1;
+    }
+
+    /* Stage 3: Birthday Celebration */
+    .birthday-stage {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      transform: scale(0.8);
+      transition: all 1.5s ease-out;
+      pointer-events: none;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .birthday-stage.show {
+      opacity: 1;
+      transform: scale(1);
+      pointer-events: all;
+    }
+
+    .birthday-title {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2.8rem;
+      font-weight: bold;
+      color: #ff6b6b;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      animation: celebrationBounce 2s ease-out;
+      margin-bottom: 15px;
+      padding: 0 20px;
+    }
+
+    .birthday-name {
+      font-family: 'Dancing Script', cursive;
+      font-size: 2.2rem;
+      color: #e91e63;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+      margin-bottom: 30px;
+      padding: 0 20px;
+    }
+
+    .happiness-message {
+      background: rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(15px);
+      padding: 25px 20px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      color: #d81b60;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      max-width: 90%;
+      width: 100%;
+      max-width: 500px;
+      animation: messageSlideUp 2s ease-out 0.5s both;
+      margin: 0 20px;
+    }
+
+    @media (max-width: 480px) {
+      .birthday-title {
+        font-size: 2.2rem;
+        margin-bottom: 10px;
+      }
+      
+      .birthday-name {
+        font-size: 1.8rem;
+        margin-bottom: 25px;
+      }
+      
+      .happiness-message {
+        font-size: 1rem;
+        line-height: 1.5;
+        padding: 20px 15px;
+        margin: 0 15px;
+        max-width: calc(100vw - 40px);
+      }
+    }
+
+    @keyframes celebrationBounce {
+      0% { transform: translateY(-100px) scale(0.5); opacity: 0; }
+      50% { transform: translateY(20px) scale(1.1); opacity: 1; }
+      100% { transform: translateY(0) scale(1); opacity: 1; }
+    }
+
+    @keyframes messageSlideUp {
+      0% { transform: translateY(50px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
+    /* Celebration animations */
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: #ff6b6b;
+      animation: confettiFall 3s linear infinite;
+    }
+
+    .confetti:nth-child(2n) { background: #54a0ff; }
+    .confetti:nth-child(3n) { background: #5f27cd; }
+    .confetti:nth-child(4n) { background: #00d2d3; }
+    .confetti:nth-child(5n) { background: #ff9ff3; }
+
+    @keyframes confettiFall {
+      0% { 
+        transform: translateY(-100vh) rotate(0deg); 
+        opacity: 1; 
+      }
+      100% { 
+        transform: translateY(100vh) rotate(720deg); 
+        opacity: 0; 
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Stage 1: Original Tamil Poem -->
+  <div class="poem-stage" id="poemStage">
+    <div class="aj-floating" style="top: 10%; left: 20%;">AJ</div>
+    <div class="aj-floating" style="top: 70%; left: 70%;">AJ</div>
+    <div class="aj-floating" style="top: 40%; left: 50%;">AJ</div>
+
+    <div class="tamil-poem">
+      இரவில் துளைத்த நிழலாய்<br>
+      என் மனதினை துளைத்தேனே<br>
+      உன் காந்தக் கண்ணில்<br>
+      என் கனவுகளை கண்டேனே<br><br>
+
+      என் அன்பிற்கினியவளே<br>
+      என் துன்பத் துணை அவளே<br>
+      என் சிரிப்பின் கரு அவளே, அவளே
+    </div>
+
+    <button class="continue-button" onclick="showCodeStage()">Continue →</button>
+  </div>
+
+  <!-- Stage 2: Secret Code Entry -->
+  <div class="code-stage" id="codeStage">
+    <div class="code-message">Enter the secret code to continue...</div>
+    <input type="text" class="code-input" id="codeInput" placeholder="***" maxlength="3">
+    <button class="enter-button" onclick="checkCode()">ENTER</button>
+    <div class="error-message" id="errorMessage">Incorrect code! Try again...</div>
+  </div>
+
+  <!-- Stage 3: Birthday Celebration -->
+  <div class="birthday-stage" id="birthdayStage">
+    <!-- Confetti -->
+    <div class="confetti" style="left: 10%; animation-delay: 0s;"></div>
+    <div class="confetti" style="left: 20%; animation-delay: 0.5s;"></div>
+    <div class="confetti" style="left: 30%; animation-delay: 1s;"></div>
+    <div class="confetti" style="left: 40%; animation-delay: 1.5s;"></div>
+    <div class="confetti" style="left: 50%; animation-delay: 2s;"></div>
+    <div class="confetti" style="left: 60%; animation-delay: 0.3s;"></div>
+    <div class="confetti" style="left: 70%; animation-delay: 0.8s;"></div>
+    <div class="confetti" style="left: 80%; animation-delay: 1.3s;"></div>
+    <div class="confetti" style="left: 90%; animation-delay: 1.8s;"></div>
+
+    <div class="birthday-title">🎉 Happy Birthday 🎉</div>
+    <div class="birthday-name">Arunaethi</div>
+    <div class="happiness-message">
+    Just like this game… you don’t need to search for happiness in others, because you are the real happiness itself it is around you.
+      
+    </div>
+  </div>
+
+  <script>
+    function showCodeStage() {
+      document.getElementById('poemStage').classList.add('hidden');
+      document.getElementById('codeStage').classList.add('show');
+    }
+
+    function checkCode() {
+      const input = document.getElementById('codeInput');
+      const errorMsg = document.getElementById('errorMessage');
+      
+      if (input.value === '143') {
+        // Correct code - go to birthday celebration
+        document.getElementById('codeStage').classList.remove('show');
+        document.getElementById('birthdayStage').classList.add('show');
+        
+        // Start celebration effects
+        startCelebration();
+      } else {
+        // Wrong code - show error
+        errorMsg.classList.add('show');
+        input.value = '';
+        input.style.borderColor = '#ff6b6b';
+        
+        setTimeout(() => {
+          errorMsg.classList.remove('show');
+          input.style.borderColor = 'rgba(255, 255, 255, 0.3)';
+        }, 2000);
+      }
+    }
+
+    // Allow Enter key to submit code
+    document.getElementById('codeInput').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        checkCode();
+      }
+    });
+
+    function startCelebration() {
+      // Create additional confetti
+      for (let i = 0; i < 20; i++) {
+        setTimeout(() => {
+          createConfetti();
+        }, i * 200);
+      }
+    }
+
+    function createConfetti() {
+      const confetti = document.createElement('div');
+      confetti.className = 'confetti';
+      confetti.style.left = Math.random() * 100 + '%';
+      confetti.style.animationDelay = '0s';
+      confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+      
+      const colors = ['#ff6b6b', '#54a0ff', '#5f27cd', '#00d2d3', '#ff9ff3', '#feca57'];
+      confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+      
+      document.getElementById('birthdayStage').appendChild(confetti);
+      
+      setTimeout(() => {
+        confetti.remove();
+      }, 4000);
+    }
+  </script>
+
+</body>
+</html>
